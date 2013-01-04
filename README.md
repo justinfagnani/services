@@ -17,15 +17,15 @@ that return `Futures`. The implementation simply implements the interface.
 
 A sample service interface for a date service:
 
-abstract class TimeService {
-  Future<Date> getDate
-}
+    abstract class TimeService {
+      Future<Date> getDate();
+    }
 
 And the implementation:
 
-class TimeServiceImpl implements TimeService {
-  Future<Date> getDate => new Future.immediate(new Date.now());
-}
+    class TimeServiceImpl implements TimeService {
+      Future<Date> getDate => new Future.immediate(new Date.now());
+    }
 
 The implementation is hosted in an isolate or separate VM. The interface is used
 to call the service via ServiceProxy objects. Arguments and return values are
@@ -39,3 +39,5 @@ communicates to proxies via HTTP.
 There are three `ServiceProxy` implementations. One communicates via `SendPorts`
 for use with a `ServiceHost`, and the other two use HTTP, either from dart:io
 or dart:html, for use with a `ServiceHandler`.
+
+See the examples for how the pieces fit together.
