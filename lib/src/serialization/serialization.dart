@@ -2,6 +2,15 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+/**
+ * This library provides a simple JSON serializer. It should soon be replaced
+ * with the serialization package in the SDK.
+ *
+ * TODO(justinfagnani): Should use pkg/serialization. Might need to change how
+ * messages are structured to know the type of response before deserialization,
+ * since pkg/serialization needs rules to be added before it can
+ * serialize/deserialize.
+ */
 library serialization;
 
 import 'dart:json';
