@@ -4,6 +4,8 @@
 
 library foo_service;
 
+import 'dart:async';
+
 class Foo {
   String id;
   String name;

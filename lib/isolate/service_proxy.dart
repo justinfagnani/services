@@ -22,6 +22,6 @@ class ServiceProxy {
   noSuchMethod(InvocationMirror im) {
     var args = serializer.serialize(im.positionalArguments);
     return _sendPort.call(Message.invoke(im.memberName, args))
-        .transform((reply) => serializer.deserialize(reply['result']));
+        .then((reply) => serializer.deserialize(reply['result']));
   }
 }

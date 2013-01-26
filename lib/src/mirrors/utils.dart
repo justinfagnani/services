@@ -4,6 +4,7 @@
 
 library utils;
 
+import 'dart:async';
 import 'mirrors.dart';
 
 Future invoke(obj, String method, List args) {
@@ -11,7 +12,7 @@ Future invoke(obj, String method, List args) {
   var mirror = reflect(obj);
   var methodMirror = getMethodMirror(mirror.type, method);
   if (methodMirror != null) {
-    mirror.invoke(method, args.map(reflect)).then((im) {
+    mirror.invoke(method, args.mappedBy(reflect).toList()).then((im) {
       if (im.reflectee != null) {
         im.reflectee.then((value) {
           completer.complete(value);

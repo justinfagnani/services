@@ -40,7 +40,7 @@ main() {
       ..name = "Bob"
       ..age = 29;
     expect(
-        JSON.parse(serializer.serialize(foo)),
+        parse(serializer.serialize(foo)),
         {"__type":"json_serializer_test.Foo","name":"Bob","age":29});
   });
 
@@ -51,7 +51,7 @@ main() {
     ref.self = ref;
     var json = serializer.serialize(ref);
     expect(
-        JSON.parse(json),
+        parse(json),
         {
           "__type":"json_serializer_test.Ref",
           "__id":"12345",

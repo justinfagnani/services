@@ -10,7 +10,7 @@ final _cwd = new Directory.current().path;
 
 /// Very simple async static file server
 void serveFile(HttpRequest req, HttpResponse resp) {
-  Path path = new Path.fromNative(req.path).canonicalize();
+  Path path = new Path(req.path).canonicalize();
   path = new Path("$_cwd$path");
   if (path.hasTrailingSeparator) {
     path = path.append("index.html");

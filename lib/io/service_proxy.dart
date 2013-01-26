@@ -4,6 +4,7 @@
 
 library service_proxy;
 
+import 'dart:async';
 import 'dart:io';
 import 'dart:uri';
 import 'package:logging/logging.dart';

@@ -4,6 +4,7 @@
 
 library foo_service_impl;
 
+import 'dart:async';
 import 'foo_service.dart';
 
 class FooServiceImpl extends FooService {

@@ -7,7 +7,7 @@ library browser_client;
 import 'dart:html';
 import 'dart:uri';
 import '../foo_service.dart';
-import 'package:experiments/services/html/service_proxy.dart';
+import 'package:services/html/service_proxy.dart';
 
 class ClientFooService extends ServiceProxy implements FooService {
   ClientFooService() : super('http://127.0.0.1:8888/foo');

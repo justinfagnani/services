@@ -4,6 +4,7 @@
 
 library json;
 
+import 'dart:async';
 import 'dart:json';
 import 'dart:math';
 import 'package:logging/logging.dart';
@@ -77,13 +78,13 @@ class JsonSerializer extends Serializer {
   }
 
   String serialize(Object o) {
-    var str = JSON.stringify(_serialize(o, new LinkedHashMap()));
+    var str = stringify(_serialize(o, new LinkedHashMap()));
 //    print("serialized: $str");
     return str;
   }
 
   Object deserialize(String json) {
-    return _deserialize(JSON.parse(json), new LinkedHashMap());
+    return _deserialize(parse(json), new LinkedHashMap());
   }
 
   _serialize(var o, Map<Object, Map> visited) {
@@ -119,8 +120,9 @@ class JsonSerializer extends Serializer {
       visited[o] = serialized;
       for (var m in classMirror.variables.keys) {
         _logger.fine("member: $m");
-        _logger.fine("value: ${mirror.getField(m).value.reflectee}");
-        serialized[m] = _serialize(mirror.getField(m).value.reflectee, visited);
+        var value =  deprecatedFutureValue(mirror.getField(m));
+        _logger.fine("value: $value");
+        serialized[m] = _serialize(value.reflectee, visited);
       }
     }
     return serialized;
@@ -196,7 +198,7 @@ class JsonSerializer extends Serializer {
       return _customSerializers[typeName].fromMap(map);
     }
     var classMirror = getClassMirror(typeName);
-    var objMirror = classMirror.newInstance("", []).value;
+    var objMirror = deprecatedFutureValue(classMirror.newInstance("", []));
 
     // if the map has an '__id' key, the object is referenced later
     // store the instance in refs
