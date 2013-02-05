@@ -8,8 +8,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:uri';
 import 'package:logging/logging.dart';
-import 'package:services/src/serialization/json.dart';
-import 'package:services/src/serialization/serialization.dart';
+import 'package:services/src/serialization/json_serialization.dart';
 
 final Logger _logger = new Logger('service_proxy');
 
@@ -21,8 +20,7 @@ class ServiceProxy {
   final Serializer _serializer;
   final String url;
 
-  ServiceProxy(String this.url, {Serializer serializer})
-      : _serializer = (serializer == null) ? new JsonSerializer() : serializer;
+  ServiceProxy(String this.url, this._serializer);
 
   noSuchMethod(InvocationMirror im) {
     // TODO(justinfagnani): validate method, make sure it's async
@@ -41,8 +39,8 @@ class ServiceProxy {
         var sis = new StringInputStream(res.inputStream);
         sis.onLine = () => lines.add(sis.readLine());
         sis.onClosed = () {
-          var result = Strings.join(lines, '\n');
-          completer.complete(_serializer.deserialize(result));
+        var result = lines.join('\n');
+        completer.complete(_serializer.deserialize(result));
         };
       }
       ..onError = (e) => completer.completeException(e);

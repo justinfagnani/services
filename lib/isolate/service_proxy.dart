@@ -5,8 +5,7 @@
 library local_service;
 
 import 'dart:isolate';
-import 'package:services/src/serialization/json.dart';
-import 'package:services/src/serialization/serialization.dart';
+import 'package:services/src/serialization/json_serialization.dart';
 import 'message.dart';
 
 /**
@@ -14,10 +13,10 @@ import 'message.dart';
  * The receiving isolate must be running a service via the [host] function.
  */
 class ServiceProxy {
-  final Serializer serializer = new JsonSerializer();
+  final Serializer serializer;
   final SendPort _sendPort;
 
-  ServiceProxy(SendPort sendPort) : _sendPort = sendPort;
+  ServiceProxy(SendPort sendPort, this.serializer) : _sendPort = sendPort;
 
   noSuchMethod(InvocationMirror im) {
     var args = serializer.serialize(im.positionalArguments);

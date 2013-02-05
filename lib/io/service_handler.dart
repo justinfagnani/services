@@ -7,8 +7,7 @@ library service_handler;
 import 'dart:io';
 import 'package:logging/logging.dart';
 import 'package:services/src/mirrors/utils.dart';
-import 'package:services/src/serialization/json.dart';
-import 'package:services/src/serialization/serialization.dart';
+import 'package:services/src/serialization/json_serialization.dart';
 
 final Logger _logger = new Logger('service_handler');
 
@@ -22,12 +21,11 @@ final Logger _logger = new Logger('service_handler');
  * the mathod on [service] matching the methodName.
  */
 class ServiceHandler {
-  final Serializer serializer;
+  Serializer serializer;
   final service;
   final String path;
 
-  ServiceHandler(this.service, this.path, {Serializer serializer})
-      : serializer = (serializer != null) ? serializer : new JsonSerializer();
+  ServiceHandler(this.service, this.path, this.serializer);
 
   bool matcher(HttpRequest req) => req.path.startsWith(path);
 
@@ -50,7 +48,7 @@ class ServiceHandler {
     var body = <String>[];
     sis.onLine = () => body.add(sis.readLine());
     sis.onClosed = () {
-      var message = Strings.join(body, '\n');
+      var message = body.join('\n');
       _logger.fine("message: ${message}");
       if ((message == null) || (message.isEmpty)) {
         _logger.fine("no message");

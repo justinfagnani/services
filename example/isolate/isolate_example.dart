@@ -10,7 +10,8 @@ import 'package:services/isolate/service_proxy.dart';
 import '../foo_service.dart';
 
 class FooServiceProxy extends ServiceProxy implements FooService {
-  FooServiceProxy(SendPort sendPort) : super(sendPort);
+  FooServiceProxy(SendPort sendPort, FooSerializer serializer) :
+      super(sendPort, serializer);
 }
 
 main() {
@@ -19,7 +20,7 @@ main() {
   var sendPort = spawnUri('foo_host.dart');
 
   // Then, connect to the service.
-  var fooService = new FooServiceProxy(sendPort);
+  var fooService = new FooServiceProxy(sendPort, new FooSerializer());
 
   // Now we can use the service...
   fooService.getFoo("123").then((Foo foo) {

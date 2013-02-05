@@ -10,7 +10,7 @@ import '../foo_service.dart';
 import 'package:services/html/service_proxy.dart';
 
 class ClientFooService extends ServiceProxy implements FooService {
-  ClientFooService() : super('http://127.0.0.1:8888/foo');
+  ClientFooService() : super('http://127.0.0.1:8888/foo', new FooSerializer());
 }
 
 void main() {

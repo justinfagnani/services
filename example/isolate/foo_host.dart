@@ -6,9 +6,10 @@ library foo_host;
 
 import 'package:services/isolate/service_host.dart';
 import '../foo_service_impl.dart';
+import '../foo_service.dart';
 
 // This file should be generated, but spawnUri() does not work with
 // data: URIs
 main() {
-  new ServiceHost(new FooServiceImpl()).listen();
+  new ServiceHost(new FooServiceImpl(), new FooSerializer()).listen();
 }

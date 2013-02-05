@@ -8,8 +8,7 @@ import 'dart:async';
 import 'dart:html';
 import 'dart:uri';
 import 'package:logging/logging.dart';
-import 'package:services/src/serialization/json.dart';
-import 'package:services/src/serialization/serialization.dart';
+import 'package:services/src/serialization/json_serialization.dart';
 
 final Logger _logger = new Logger('service_proxy');
 
@@ -18,17 +17,16 @@ final Logger _logger = new Logger('service_proxy');
  * The receiving server must be running a service via a [ServiceHandler].
  */
 class ServiceProxy {
-  final Serializer _serializer;
+  final Serializer serializer;
   final String url;
 
-  ServiceProxy(String this.url, {Serializer serializer})
-      : _serializer = (serializer == null) ? new JsonSerializer() : serializer;
+  ServiceProxy(String this.url, this.serializer);
 
   noSuchMethod(InvocationMirror im) {
     // TODO(justinfagnani): validate method, make sure it's async
     var completer = new Completer();
     var method = im.memberName;
-    var message = _serializer.serialize(im.positionalArguments);
+    var message = serializer.serialize(im.positionalArguments);
     var req = new HttpRequest();
     req..on.loadEnd.add((e) {
         var response = req.responseText;

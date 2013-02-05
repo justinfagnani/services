@@ -9,7 +9,8 @@ import 'package:services/io/service_proxy.dart';
 import '../foo_service.dart';
 
 class ClientFooService extends ServiceProxy implements FooService {
-  ClientFooService() : super('http://127.0.0.1:8888/foo');
+  ClientFooService() : super('http://127.0.0.1:8888/foo',
+      new FooSerializer());
 }
 
 void main() {
@@ -29,6 +30,6 @@ void main() {
   var child = new Foo.init("2", "child");
   var parent = new Foo.init("1", "parent", child);
   fooService.saveFoo(parent).then((added) {
-    print(added);
+    print("Added: $added");
   });
 }

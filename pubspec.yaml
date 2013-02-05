@@ -2,5 +2,10 @@ name:  services
 description:  High-level libraries for isolate-isolate communication.
 
 dependencies:
-  unittest: any
-  logging: any
+  unittest:
+    sdk: unittest
+  logging:
+    sdk: logging
+  browser: any
+  serialization:
+    sdk: serialization

@@ -6,23 +6,23 @@ library service_host;
 
 import 'dart:isolate';
 import 'package:services/src/mirrors/utils.dart';
-import 'package:services/src/serialization/json.dart';
-import 'package:services/src/serialization/serialization.dart';
+import 'package:services/src/serialization/json_serialization.dart';
 import 'message.dart';
 
 /**
  * Hosts a service on a [ReceivePort]
  */
 class ServiceHost {
+  final serializer;
   final service;
   ReceivePort _port;
 
-  ServiceHost(this.service);
+  ServiceHost(this.service, this.serializer);
 
   void listen({ReceivePort receivePort}) {
     if (_port != null) throw new StateError('already listening');
     _port = (receivePort == null) ? port : receivePort;
-    var serializer = new JsonSerializer();
+
     port.receive((msg, replyTo) {
       switch (msg['id']) {
         case Message.INVOKE:

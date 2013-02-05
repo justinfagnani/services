@@ -10,11 +10,13 @@ import 'util.dart';
 import 'package:logging/logging.dart';
 import 'package:services/io/service_handler.dart';
 import '../foo_service_impl.dart';
+import '../foo_service.dart';
 
 main() {
   Logger.root.level = Level.FINE;
   var server = new HttpServer();
-  var fooHandler = new ServiceHandler(new FooServiceImpl(), '/foo');
+  var fooHandler = new ServiceHandler(new FooServiceImpl(), '/foo',
+      new FooSerializer());
   server.addRequestHandler(fooHandler.matcher, fooHandler.handler);
   server.defaultRequestHandler = serveFile;
   server.listen("127.0.0.1", 8888);
